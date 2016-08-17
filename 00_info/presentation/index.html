@@ -1,0 +1,323 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/nih.css">
+
+		<link rel="stylesheet" href="plugin/title-footer/title-footer.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+
+
+	<div class="reveal">
+
+		<div style="top: 0px; margin-left: 0px; width: 100%; background: rgba(0,0,0,0.1); text-align: center; height: 2vh; z-index: 5; font-size: 2vh; text-align: center; letter-spacing: 0em; padding-top: 0.5vh; padding-bottom: 0.5vh; opacity: 1; transition: opacity 800ms ease-in-out; position: fixed;">
+		<span style="color:#fff; "><a href="mailto:dev-night@tradebyte.com" style="color:#fff; text-decoration: none">dev-night@tradebyte.com</a> | <a href="https://twitter.com/search?q=%23devnightrises&amp;src=hash" style="color:#fff; text-decoration: none">#devnightrises</a></span>
+	</div>
+
+			<div class="slides">
+				<section data-state="no-toc-progress">
+					<img src="./img/dev_night-logo.png">
+				</section>
+
+				<!-- Greeting -->
+				<section>
+					<section>
+						<h1>Herzlich Willkommen!</h1>
+					</section>
+
+					<section>
+						<p>Über das Event berichten:</p>
+						<h2><a href="https://twitter.com/search?q=%23devnightrises&amp;src=hash">#devnightrises</a></h2>
+
+						<br />
+
+						<p>Bei Fragen:</p>
+						<h2><a href="mailto:dev-night@tradebyte.com">dev-night@tradebyte.com</a></h2>
+					</section>
+				</section>
+
+				<!-- Intro -->
+				<section>
+					<section>
+						<h1>Transaction Patterns</h1>
+					</section>
+
+					<section>
+						<h2>Warum ist das nützlich?</h2>
+					</section>
+
+					<section>
+						<h2>Beispiel: Geldautomat</h2>
+
+						<br />
+
+						<p class="fragment">Was muss der Automat können?</p>
+
+						<ul class="fragment">
+							<li>Zusammenspiel von mehreren Diensten</li>
+							<li>Aktionen müssen korrekt ausgeführt werden</li>
+							<li>Ausfallsicherheit</li>
+						</ul>
+
+						<br />
+						<br />
+
+						<h3 class="fragment">Die Lösung: <b>ACID!</b></h3>
+					</section>
+				</section>
+
+				<section>
+					<h2>Was wir uns ansehen werden</h2>
+
+					<img src="./img/map.jpg" style="background: rgba(0,0,0,0); border: none; width: 70%;"></img>
+					<br/><i style="font-size: 15px;">Quelle: <a href="http://hillside.net/plop/plop99/proceedings/grand/plop_99_transaction_patterns.pdf">Hillside PDF</a></i>
+				</section>
+
+				<!-- ACID -->
+				<section>
+					<!--https://dev.mysql.com/doc/refman/5.5/en/mysql-acid.html-->
+
+					<section>
+						<img src="./img/ACID.jpg" style="background: rgba(0,0,0,0); border: none ;width: 90%; height:90%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="http://www.bsimard.com/presentation-neo4j">http://www.bsimard.com/presentation-neo4j</a></i>
+					</section>
+
+					<section>
+						<p>Das <code><b>ACID Transaction pattern</b></code> beschreibt wie man eine Transaction designen kann die niemals in einen inkonsistenten oder unerwarteten Zustand läuft.</p>
+					</section>
+
+					<section>
+						<h1>Beispiel?</h1>
+					</section>
+
+					<section>
+						<img src="./img/MySQL.png" style="background: rgba(0,0,0,0); border: none ;width: 90%; height:90%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="https://de.wikipedia.org/wiki/Datei:Logo_MySQL.svg">Wikipedia</a></i>
+					</section>
+
+					<section>
+						<h1 style="text-transform: none"><code>InnoDB</code></h1>
+					</section>
+
+					<section>
+						<h2>Atomicity</h2>
+
+						<br />
+
+						<ul>
+							<li>Autocommit Einstellung</li>
+							<li><code>COMMIT</code> Statement</li>
+							<li><code>ROLLBACK</code> Statement</li>
+						</ul>
+
+						<br />
+						<br />
+
+						<pre class="fragment"><code class="hljs" data-trim contenteditable>
+START TRANSACTION;
+UPDATE customers SET balance = 500 WHERE customer = 'Dennis';
+COMMIT;
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Consistency</h2>
+
+						<br />
+
+						<ul>
+							<li><code>InnoDB</code> <b><i>doublewrite buffer</i></b></li>
+							<li><code>InnoDB</code> <b><i>crash recovery</i></b></li>
+						</ul>
+
+						<br />
+						<br />
+
+					</section>
+
+					<section>
+						<h2>Isolation</h2>
+
+						<br />
+
+						<ul>
+							<li>Autocommit Einstellung</li>
+							<li><code>SET ISOLATION LEVEL</code> Statement</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Durability</h2>
+
+						<br />
+
+						<p>Verschiedene Einstellung zur Anpassung an die Hardware. z.B.:</p>
+
+						<ul>
+							<li>Autocommit Einstellung</li>
+							<li>Konfiguration zu <code>innodb_file_per_table</code></li>
+							<li>Konfiguration zu <code>sync_binlog</code></li>
+						</ul>
+					</section>
+
+					<section>
+						<img src="./img/bsp1.jpg" style="background: rgba(0,0,0,0); border: none ;width: 90%; height:90%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="http://hillside.net/plop/plop99/proceedings/grand/plop_99_transaction_patterns.pdf">Hillside PDF</a></i>
+					</section>
+
+					<section>
+						<img src="./img/bsp2.jpg" style="background: rgba(0,0,0,0); border: none; width: 70%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="http://hillside.net/plop/plop99/proceedings/grand/plop_99_transaction_patterns.pdf">Hillside PDF</a></i>
+					</section>
+
+					<section>
+						<img src="./img/bsp3.jpg" style="background: rgba(0,0,0,0); border: none; width: 70%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="http://hillside.net/plop/plop99/proceedings/grand/plop_99_transaction_patterns.pdf">Hillside PDF</a></i>
+					</section>
+
+				</section>
+
+				<!-- Composite Transaction -->
+				<section>
+					<section>
+						<h1>Composite Transaction</h1>
+					</section>
+
+					<section>
+						<p>
+							Einfache Transactions sind leichter korrekt zu implementieren.
+							<br />
+							Daher kann man komplexere Transactions aus einfacheren ACID Transactions entwickeln.
+						</p>
+					</section>
+
+					<section>
+						<img src="./img/comp.jpg" style="background: rgba(0,0,0,0); border: none; width: 58%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="http://hillside.net/plop/plop99/proceedings/grand/plop_99_transaction_patterns.pdf">Hillside PDF</a></i>
+					</section>
+				</section>
+
+				<!-- 2 Phase -->
+				<section>
+					<section>
+						<h1>Two Phase Commit</h1>
+					</section>
+
+					<section>
+						<p>
+							Wenn eine Transaction aus simpleren Transactions besteht, sollten entweder alle erfolgreich durchlaufen oder alle abgebrochen werden.
+							<br />
+							Bei einem Abbruch sollten alle Objekte in dem Status vor der Transactions verbleiben.
+						</p>
+					</section>
+
+					<section>
+						<img src="./img/2phase-1.jpg" style="background: rgba(0,0,0,0); border: none; width: 50%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="http://hillside.net/plop/plop99/proceedings/grand/plop_99_transaction_patterns.pdf">Hillside PDF</a></i>
+					</section>
+
+					<section>
+						<img src="./img/2phase-2.jpg" style="background: rgba(0,0,0,0); border: none; width: 70%;"></img>
+						<br/><i style="font-size: 15px;">Quelle: <a href="http://hillside.net/plop/plop99/proceedings/grand/plop_99_transaction_patterns.pdf">Hillside PDF</a></i>
+					</section>
+				</section>
+
+				<!-- Übung -->
+				<section>
+					<section>
+						<h1>Challenge</h1>
+					</section>
+
+					<section>
+						<h2>Mategetränke-Automat</h2>
+
+						<p>Ihr sollt mit dem "Two Phase Commit"-Pattern einen verteilten Service erstellen, der aus folgenden Komponenten besteht.</p>
+
+						<ul>
+							<li>AutomatenController</li>
+							<li>Geldannahme</li>
+							<li>Getränkeausgabe</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Modalitäten</h2>
+
+						<ul>
+							<li>Zeit zum erstellen: ca. 1h 30m</li>
+							<li>Team sollten max. aus <b>2-3 Leuten</b> bestehen.</li>
+							<li>Ein Team implementiert <b>nur</b> einen <b>Service</b>.</li>
+							<li>Wir wollen <b>Clean Code</b> schreiben.</li>
+							<li>Wir wollen <b>Test First</b> entwickeln.</li>
+							<li>Und am wichtigsten: <b>Have fun! :)</b></li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<img src="./img/happy-dance.gif">
+						<br>
+						<h2>Vielen Dank! :)</h2>
+					</section>
+				</section>
+			</div>
+		</div>
+
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/title-footer/title-footer.js', async: true, callback: function() { title_footer.initialize('/dev/night - Transaction Patterns'); } },
+					{ src: 'plugin/menu/menu.js' }
+				],
+
+				menu: {
+					themes: [
+						{ name: 'nih', theme: 'css/theme/nih.css' },
+					],
+					custom: [
+						{ title: 'Über', icon: '<i class="fa fa-info">', content: '' +
+						'<h2>Links</h2>' +
+						'<ul class="slide-menu-items">' +
+							'<li class="slide-menu-item"><a href="https://www.tradebyte.com/dev-night/">/dev/night Seite</a></li>' +
+							'<li class="slide-menu-item"><a href="https://twitter.com/search?q=%23devnightrises&src=hash">/dev/night Twitter Hashtag</a></li>' +
+							'<li class="slide-menu-item"><a href="https://www.tradebyte.com">Tradebyte Homepage</a></li>' +
+							'<li class="slide-menu-item"><a href="http://nheer.io">Niklas Homepage</a></li>' +
+							'<li class="slide-menu-item"><a href="http://talks.nheer.io">Niklas Präsentationen</a></li>' +
+						'</ul>'}
+					]
+				}
+			});
+		</script>
+	</body>
+</html>
