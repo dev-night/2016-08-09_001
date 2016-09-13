@@ -1,0 +1,7 @@
+suites:
+  default:
+    namespace: devnight\geldannahme
+    psr4_prefix: devnight\geldannahme
+    src_path: src/
+    spec_prefix: spec\
+    spec_path: .
